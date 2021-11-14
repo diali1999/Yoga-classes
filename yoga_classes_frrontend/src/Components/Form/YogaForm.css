@@ -1,0 +1,29 @@
+.wrapper{
+    margin-left: 5%;
+    /* margin-bottom: 5%; */
+    width: 90%;
+    padding: 5px;
+}
+.error {
+    border: 2px solid red;
+  }
+  .error-message {
+    color: #ff0000;
+    margin-top: 50px;
+    position: relative;
+    font-size: .8em;
+  }
+.preview {
+    padding: 20px;
+    width: 200%;
+    margin-left: 20%;
+    margin-top: 2%;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 10px 5px 5px rgb(202, 199, 199);
+}
+
+.btn{
+    margin-left: 40%;
+}
