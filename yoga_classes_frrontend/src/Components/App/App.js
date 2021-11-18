@@ -1,7 +1,8 @@
 import './App.css';
-//import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import YogaForm from '../Form/YogaForm.js';
+import PaymentForm from '../Payment/PaymentForm';
+
 export default function App() {
   return (
     <div className="container mt-3">
@@ -9,6 +10,7 @@ export default function App() {
       <div className="col-md-5">
       <BrowserRouter>
         <YogaForm />
+        <PaymentForm/>
       </BrowserRouter>
         </div>
       </div>

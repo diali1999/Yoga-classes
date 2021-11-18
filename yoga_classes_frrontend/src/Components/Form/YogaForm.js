@@ -1,8 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
 import {Form, Button, Row, Col} from 'react-bootstrap';
-import { TextField } from './TextField';
-import RadioField from './RadioField';
 import "./YogaForm.css";
 import * as Yup from 'yup';
 
@@ -19,11 +17,17 @@ export default function YogaForm() {
       .required('*Email is required'),
     age: Yup.number()
       .min(18, "*Age  must at least 18")
-      .max(65, "*Age can be maximum 65")
-      .required('Age is required'),
+      .max(65, '*Age can be maximum 65')
+      .required('*Age is required'),
     phone_no: Yup.string()
     .matches(/[6-9]+[0-9]{9}/, "*Enter valid phone number")
-    .required("*Please enter phone number")
+    .required("*Please enter phone number"),
+    address: Yup.string()
+       .required('*Address is required'),
+    batch: Yup.string()
+      .required("*Please select a batch"),
+    gender: Yup.string()
+      .required('*Please enter gender')
   });
   return (
     <Formik
@@ -35,9 +39,17 @@ export default function YogaForm() {
         age : 18,
         phone_no : '',
         batch : '',
-        address : ''
+        address : '',
       }}
       validationSchema={validate}
+      onSubmit={(values, {setSubmitting, resetForm}) => {
+        setSubmitting(true);
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          resetForm();
+          setSubmitting(false);
+        }, 500);
+    }}
     >
       {(
         {values,
@@ -53,7 +65,7 @@ export default function YogaForm() {
           {console.log(values)}
         <h1>Yoga Online Registration Form</h1>
         <hr/>
-          <Form className="mx-auto">
+          <Form onsubmit = {handleSubmit} className="mx-auto">
                 <Form.Group className="mb-3" controlId = 'formFirstName'>
                   <Form.Label>First Name</Form.Label>
                   <Form.Control 
@@ -108,13 +120,16 @@ export default function YogaForm() {
                         onChange = {handleChange}
                         value = {values.gender}
                         onBlur={handleBlur}  
-                         
+                        className={touched.gender && errors.gender ? "error" : null}
                       >
                     <option hidden selected value > -- select an option -- </option>
                     <option value="M">Male</option>
                     <option value="F">Female</option>
                     <option value="T">None of the above</option>
                     </Form.Control>
+                    {touched.gender && errors.gender ? (
+                            <div className="error-message">{errors.gender}</div>
+                          ): null}
                 </Form.Group>
                 <Form.Group className="mb-3" controlId = 'formAge'>
                   <Form.Label>Age</Form.Label>
@@ -153,21 +168,24 @@ export default function YogaForm() {
                         placeholder="Enter Address" 
                         name = "address"
                         onChange = {handleChange}
-                        value = {values.address}    
+                        onBlur={handleBlur}
+                        value = {values.address} 
+                        className={touched.address && errors.address ? "error" : null}   
                         />
                         {touched.address && errors.address ? (
                             <div className="error-message">{errors.address}</div>
                           ): null}
                 </Form.Group>
                 <Form.Group className="mb-3" controlId = 'formBatch'>
-                  <Form.Label>Batch</Form.Label>
+                  <Form.Label>Select Batch</Form.Label>
                   <Form.Control 
                         as ="select" 
-                        placeholder="Enter Batch" 
+                        placeholder="Select Batch" 
                         name = "batch"
                         onChange = {handleChange}
                         value = {values.batch} 
                         onBlur={handleBlur}   
+                        className={touched.batch && errors.batch ? "error" : null}
                       >
                     <option hidden selected value > -- select an option -- </option>
                     <option >6-7 am</option>
@@ -175,8 +193,12 @@ export default function YogaForm() {
                     <option >8-9 am</option>
                     <option >5-6 pm</option>
                     </Form.Control>
+                    {touched.batch && errors.batch ? (
+                            <div className="error-message">{errors.batch}</div>
+                          ): null}
                 </Form.Group>
-                <Button  className="btn" variant="danger" type="submit">Register</Button>
+                <Button  className="btn" variant="danger" type="submit" disabled
+                = {isSubmitting}>Register</Button>
           </Form>
           
           </div>
